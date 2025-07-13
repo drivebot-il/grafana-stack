@@ -34,7 +34,7 @@ services:
   mimir:
     image: grafana/mimir:latest
     container_name: mimir
-    command: ["-config.file=/etc/mimir/mimir.yaml -config.expand-env=true"]
+    command: ["-config.file=/etc/mimir/mimir.yaml", "-config.expand-env=true"]
     volumes:
       - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
       - mimir-data:/mimir
