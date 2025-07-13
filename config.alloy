@@ -30,3 +30,10 @@ prometheus.scrape "node_exporter" {
   job_name   = "node_exporter"
   // scrape_interval = "10s"
 }
+
+// scrape mimir itself
+prometheus.scrape "mimir" {
+  targets    = ["mimir:9009"]
+  forward_to = [prometheus.remote_write.metrics_service.receiver]
+  job_name   = "mimir"
+}
