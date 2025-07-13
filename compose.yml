@@ -111,3 +111,4 @@ volumes:
   mimir-data:
   grafana-data:
   minio-data:
+    driver: local
