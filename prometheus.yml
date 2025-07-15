@@ -18,6 +18,16 @@ scrape_configs:
     static_configs:
       - targets: ['mimir:9009']
 
+  - job_name: 'pyroscope'
+    static_configs:
+      - targets: ['pyroscope:4040']
+  
+  - job_name: 'minio'
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    static_configs:
+      - targets: ['minio:9000']
+
 remote_write:
   - url: "http://mimir:9009/api/v1/push"
     headers:
