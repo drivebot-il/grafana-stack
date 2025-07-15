@@ -28,3 +28,14 @@ datasources:
       httpHeaderName1: "X-Scope-OrgID"
     secureJsonData:
       httpHeaderValue1: "1"
+
+  - name: Pyroscope
+    type: phlare           # "phlare" is used for both Pyroscope and Phlare in Grafana
+    access: proxy
+    url: http://pyroscope:4040
+    basicAuth: false
+    isDefault: false
+    editable: true
+    jsonData:
+      backendType: pyroscope
+      minStep: '15s'
