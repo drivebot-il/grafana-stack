@@ -17,8 +17,8 @@ blocks_storage:
   tsdb:
     dir: /data/ingester
     # block_ranges_period: 5m
-    block_ranges_period:
-      - 5m
+    # block_ranges_period:
+    #   - 5m
 
 server:
   http_listen_port: 9009
