@@ -16,8 +16,8 @@ services:
     volumes:
       - ./loki-local-config.yaml:/etc/loki/local-config.yaml:ro
       - loki-data:/loki
-    # ports:
-    #   - "3100:3100"
+    ports:
+      - "10.0.1.2:3100:3100"
 
   # tempo:
   #   image: grafana/tempo:latest
