@@ -60,7 +60,9 @@ services:
       - "10.0.1.2:4040:4040"
     volumes:
       - pyroscope-data:/var/lib/pyroscope
-    # Optional: add healthchecks, configuration, or networks if needed
+      - ./pyroscope.yaml:/etc/pyroscope/pyroscope.yaml:ro
+    command: ["server", "--config.file=/etc/pyroscope/pyroscope.yaml"]
+    restart: unless-stopped
 
 
   grafana:

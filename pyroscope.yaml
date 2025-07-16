@@ -1,0 +1,2 @@
+limits:
+  ingestion_rate_mb: 10
