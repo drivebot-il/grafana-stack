@@ -42,13 +42,20 @@ ingester:
       store: memberlist
     replication_factor: 1
 
-# ruler:
-#   rule_path: /data/ruler
-#   alertmanager_url: http://127.0.0.1:8080/alertmanager
-#   ring:
-#     # Quickly detect unhealthy rulers to speed up the tutorial.
-#     heartbeat_period: 2s
-#     heartbeat_timeout: 10s
+ruler:
+  storage:
+    type: local
+    local:
+      directory: /rules      # This is where rule YAML files will be mounted
+  enable_api: true           # Enables rules/alerts API (for UI/ruler API use)
+  ring:
+    kvstore:
+      store: memberlist
+    # Quickly detect unhealthy rulers to speed up the tutorial.
+    heartbeat_period: 2s
+    heartbeat_timeout: 10s
+  rule_path: /data/ruler
+  alertmanager_url: http://127.0.0.1:8080/alertmanager
 
 store_gateway:
   sharding_ring:

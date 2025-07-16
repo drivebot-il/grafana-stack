@@ -43,6 +43,7 @@ services:
     volumes:
       - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
       - mimir-data:/mimir
+      - ./rules:/rules
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
