@@ -63,6 +63,10 @@ store_gateway:
 
 limits:
   compactor_blocks_retention_period: 90d  # Example: keep metrics for 90 days
+  max_label_names_per_series: 60          # Number of label keys allowed per series
+  max_series_per_metric: 500000           # Max number of series per metric name
+  max_global_series_per_user: 1500000     # Total series per tenant across all metrics
+
 
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 # memberlist:
