@@ -24,7 +24,7 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     ports:
-      - "10.0.1.2:3100:3100"
+      - "3100:3100"
 
   tempo:
     image: grafana/tempo:latest
@@ -39,7 +39,7 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     ports:
-      - "10.0.1.2:3200:3200"
+      - "3200:3200"
 
   mimir:
     image: grafana/mimir:latest
@@ -57,17 +57,18 @@ services:
       minio:
         condition: service_healthy
     ports:
-      - "10.0.1.2:9009:9009"
+      - "9009:9009"
 
   pyroscope:
     image: grafana/pyroscope:latest
     container_name: pyroscope
     ports:
-      - "10.0.1.2:4040:4040"
+      - "4040:4040"
     volumes:
       - pyroscope-data:/var/lib/pyroscope
-      - ./pyroscope.yaml:/etc/pyroscope/pyroscope.yaml:ro
-    command: ["server", "--config.file=/etc/pyroscope/pyroscope.yaml"]
+      # - ./pyroscope.yaml:/etc/pyroscope/pyroscope.yaml:ro
+      - ./pyroscope.yaml:/etc/pyroscope/server.yaml
+    # command: ["server", "--config.file=/etc/pyroscope/pyroscope.yaml"]
     restart: unless-stopped
 
 
@@ -85,7 +86,7 @@ services:
       - ./grafana/dashboards/:/var/lib/grafana/dashboards:ro
       - grafana-data:/var/lib/grafana
     ports:
-      - "80:3000"
+      - "3000:3000"
     depends_on:
       - prometheus
       - loki
@@ -97,16 +98,16 @@ services:
     image: minio/minio
     restart: unless-stopped
     entrypoint: [""]
-    command: ["sh", "-c", "mkdir -p /data/mimir && minio server --quiet /data"]
+    command: ["sh", "-c", "mkdir -p /data/mimir && minio server --quiet --console-address \":9001\" /data"]
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - minio-data:/data
-    # ports:
+    ports:
     #   - "9000:9000"
-    #   - "9001:9001"
+      - "9001:9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
