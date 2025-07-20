@@ -27,20 +27,34 @@ schema_config:
 
 storage_config:
   aws:
+  # s3:
     # Note: use a fully qualified domain name (fqdn), like localhost.
     # full example: http://loki:supersecret@localhost.:9000
     # s3: http://${MINIO_ROOT_USER}:${MINIO_ROOT_PASSWORD}@minio:9000
     endpoint: minio:9000
     access_key_id: ${MINIO_ROOT_USER}
     secret_access_key: ${MINIO_ROOT_PASSWORD}
-    bucketnames: loki
     insecure: true
     s3forcepathstyle: true
+    bucketnames: loki
+      # chunks: loki-chunks
+      # ruler: loki-ruler
+      # admin: loki-admin
   tsdb_shipper:
     active_index_directory: /loki/index
     cache_location: /loki/index_cache
     cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
 
+ruler:
+  storage:
+    type: s3
+    s3:
+      endpoint: minio:9000
+      bucketnames: loki-ruler
+      access_key_id: ${MINIO_ROOT_USER}
+      secret_access_key: ${MINIO_ROOT_PASSWORD}
+      insecure: true
+      s3forcepathstyle: true  # recommended for MinIO
 
 # storage_config:
 #   tsdb_shipper:
