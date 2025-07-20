@@ -11,12 +11,11 @@ distributor:
         http:
 
 metrics_generator:
-  enabled: true
   storage:
-  path: /var/tempo/generator/wal
-  remote_write:
-    - url: http://prometheus:9090/api/v1/write
-      send_exemplars: true
+    path: /var/tempo/generator/wal
+    remote_write:
+      - url: http://prometheus:9090/api/v1/write
+        send_exemplars: true
   traces_storage:
     path: /var/tempo/generator/traces
   traces_query_storage:
