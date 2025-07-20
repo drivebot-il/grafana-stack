@@ -13,6 +13,9 @@ services:
     image: grafana/loki:latest
     container_name: loki
     restart: unless-stopped
+    depends_on:
+      minio: 
+        condition: service_healthy
     user: "0:0"
     command: 
        - -config.file=/etc/loki/local-config.yaml
@@ -30,6 +33,9 @@ services:
     image: grafana/tempo:latest
     container_name: tempo
     restart: unless-stopped
+    depends_on:
+      minio: 
+        condition: service_healthy
     # user: "0:0"
     command: ["-config.file=/etc/tempo/tempo-local.yaml", "-config.expand-env=true"]
     volumes:
