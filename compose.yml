@@ -30,12 +30,14 @@ services:
     image: grafana/tempo:latest
     container_name: tempo
     restart: unless-stopped
-    user: "0:0"
-    command: ["-config.file=/etc/tempo/tempo-local.yaml"]
+    # user: "0:0"
+    command: ["-config.file=/etc/tempo/tempo-local.yaml", "-config.expand-env=true"]
     volumes:
       - ./tempo-local.yaml:/etc/tempo/tempo-local.yaml:ro
-        - tempo-data:/tempo
-      # - ./tempo.yaml:/etc/tempo.yaml
+      - tempo-data:/var/tempo
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     ports:
       - "10.0.1.2:3200:3200"
 
