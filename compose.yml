@@ -24,7 +24,7 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     ports:
-      - "3100:3100"
+      - "10.0.1.2:3100:3100"
 
   tempo:
     image: grafana/tempo:latest
@@ -39,7 +39,8 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     ports:
-      - "3200:3200"
+      - "10.0.1.2:3200:3200"
+      - "10.0.1.2:4317:4317"
 
   mimir:
     image: grafana/mimir:latest
@@ -57,13 +58,13 @@ services:
       minio:
         condition: service_healthy
     ports:
-      - "9009:9009"
+      - "10.0.1.2:9009:9009"
 
   pyroscope:
     image: grafana/pyroscope:latest
     container_name: pyroscope
     ports:
-      - "4040:4040"
+      - "10.0.1.2:4040:4040"
     volumes:
       - pyroscope-data:/var/lib/pyroscope
       # - ./pyroscope.yaml:/etc/pyroscope/pyroscope.yaml:ro
@@ -86,7 +87,7 @@ services:
       - ./grafana/dashboards/:/var/lib/grafana/dashboards:ro
       - grafana-data:/var/lib/grafana
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - prometheus
       - loki
@@ -107,7 +108,7 @@ services:
       - minio-data:/data
     ports:
     #   - "9000:9000"
-      - "9001:9001"
+      - "10.0.1.2:9001:9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
