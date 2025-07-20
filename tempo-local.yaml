@@ -10,7 +10,7 @@ distributor:
         grpc:
         http:
 
-metricsGenerator:
+metrics_generator:
   enabled: true
   storage:
   path: /var/tempo/generator/wal
