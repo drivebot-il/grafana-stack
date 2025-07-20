@@ -26,23 +26,24 @@ services:
     ports:
       - "10.0.1.2:3100:3100"
 
-  # tempo:
-  #   image: grafana/tempo:latest
-  #   container_name: tempo
-  #   user: "0:0"
-  #   command: ["-config.file=/etc/tempo/tempo-local.yaml"]
-  #   volumes:
-  #     - ./tempo-local.yaml:/etc/tempo/tempo-local.yaml:ro
-  #       - tempo-data:/tempo
-  #     # - ./tempo.yaml:/etc/tempo.yaml
-  #   ports:
-  #     - "3200:3200"
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    restart: unless-stopped
+    user: "0:0"
+    command: ["-config.file=/etc/tempo/tempo-local.yaml"]
+    volumes:
+      - ./tempo-local.yaml:/etc/tempo/tempo-local.yaml:ro
+        - tempo-data:/tempo
+      # - ./tempo.yaml:/etc/tempo.yaml
+    ports:
+      - "10.0.1.2:3200:3200"
 
   mimir:
     image: grafana/mimir:latest
     restart: unless-stopped
     container_name: mimir
-    command: ["-config.file=/etc/mimir/mimir.yaml", "-config.expand-env=true"]
+    command: ["-config.file=/etc/mimir/mimir.yaml", "-config.expand-env=true", "-usage-stats.enabled=false"]
     volumes:
       - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
       - mimir-data:/mimir
@@ -82,7 +83,7 @@ services:
       - ./grafana/dashboards/:/var/lib/grafana/dashboards:ro
       - grafana-data:/var/lib/grafana
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - prometheus
       - loki
