@@ -8,7 +8,9 @@ distributor:
     otlp:
       protocols:
         grpc:
+          endpoint: 0.0.0.0:4317    # This is the standard gRPC OTLP port
         http:
+          endpoint: 0.0.0.0:4318    # (optional) OTLP/HTTP port if needed
 
 metrics_generator:
   storage:

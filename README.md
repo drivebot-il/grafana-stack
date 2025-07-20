@@ -5,3 +5,4 @@ This is a simple setup of Loki, Tempo, and Grafana for a quick demo.
 
 - [ ] multi mimir replicas
 - [ ] kafak ingester?
+- [ ] temp in redis?
