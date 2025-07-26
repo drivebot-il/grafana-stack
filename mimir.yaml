@@ -65,3 +65,5 @@ limits:
   compactor_blocks_retention_period: 90d  # Example: keep metrics for 90 days
   max_label_names_per_series: 60          # Number of label keys allowed per series
   max_global_series_per_user: 1500000     # Total series per tenant across all metrics
+  ingestion_rate: 1000000
+  ingestion_burst_size: 10000000
